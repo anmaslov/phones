@@ -1,9 +1,12 @@
 import Vue from 'vue'
+
+import 'normalize.css/normalize.css'
+import '@/styles/index.scss' // global css
+
 import App from './App.vue'
 import router from './router'
 
 Vue.config.productionTip = false
-
 
 new Vue({
   router,

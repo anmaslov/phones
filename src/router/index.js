@@ -3,36 +3,38 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
-import Layout from '../views/layout/Layout'
+import blog from '@/views/blog'
+//import services from '@/views/services'
+import contact from '@/views/contact'
 
 const routes = [
-
-    { path: '/404', component: () => import('@/views/404'), hidden: false },
-
+    
     {
+        path: '/',
+        name: 'blog',
+        component: blog
+    },
+    {
+        path: '/services',
+        name: 'services',
+        component: () => import('@/views/services')
+    },
+    {
+        path: '/contact',
+        name: 'contact',
+        component: contact
+    },
+
+    /*{
         path: '/',
         component: Layout,
         redirect: '/dashboard',
         name: 'Dashboard',
-        //hidden: false
         children: [{
             path: 'dashboard',
             component: () => import('@/views/dashboard/index')
         }]
-    },
-
-    {
-        path: '/example',
-        component: Layout,
-        redirect: '/example/table',
-        name: 'Example',
-        meta: { title: 'Example', icon: 'example' },
-    },
-
-    {
-        path: '/form',
-        component: Layout,
-    },
+    },*/
 
 ]
 
