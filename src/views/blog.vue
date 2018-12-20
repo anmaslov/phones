@@ -1,7 +1,7 @@
 <template>
-	<div class="blog">
-		<el-button>Button</el-button>
-		<Button :round="true">sdfsd </Button>
+	<section class="blog">
+		<el-button round="true">Button</el-button>
+		
 		<h1>{{title}}</h1>
 		<div class="row">
 			<div class="col-md-4">
@@ -17,11 +17,11 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</section>
 </template>
+
 <script>
 
-import { Button } from 'element-ui';
 	export default{
 		name:'blog',
 		data (){
@@ -30,7 +30,7 @@ import { Button } from 'element-ui';
 			}
 		},
 		components: {
-			Button
+			
 		}
 	}
 </script>

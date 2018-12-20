@@ -10,19 +10,19 @@ import contact from '@/views/contact'
 const routes = [
     {
         path: '/',
-        name: 'blog',
+        name: 'Главная',
         component: blog,
         icon: 'el-icon-menu'
     },
     {
         path: '/services',
-        name: 'services',
+        name: 'Услуги',
         component: () => import('@/views/services'),
         icon: 'el-icon-menu'
     },
     {
         path: '/contact',
-        name: 'contact',
+        name: 'Контакты',
         component: contact,
         icon: 'el-icon-menu'
     },

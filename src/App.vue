@@ -6,7 +6,10 @@
         <sidebar />
       </el-aside>
       <el-main>
+        <BreadCrumb />
+        <el-col :span="24">
           <router-view/>
+        </el-col>
       </el-main>
     </el-container>
 
@@ -15,20 +18,22 @@
 
 <script>
 import Sidebar from './components/Sidebar'
+import BreadCrumb from './components/BreadCrumb'
 
 export default {
   name: 'app',
   components: {
-      Sidebar
+      Sidebar,
+      BreadCrumb
     }
 }
 </script>
 
 <style>
 #app {
-	position: absolute;
-	top: 0px;
-	bottom: 0px;
-	width: 100%;
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  width: 100%;
 }
 </style>
