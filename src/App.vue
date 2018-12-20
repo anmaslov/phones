@@ -2,7 +2,7 @@
   <div id="app">
     
     <el-container class="container">
-      <el-aside width="300px">
+      <el-aside width="200px">
         <sidebar />
       </el-aside>
       <el-main>

@@ -2,7 +2,7 @@
 	<div class="services">
 		<h1>{{title}}</h1>
 
-		<div v-for="(call, index) in info.data" class="tbl-row" :key="index">
+		<div v-for="(call, index) in info" class="tbl-row" :key="index">
 			Станция: {{ call.Stantion }}, Телефон: {{ call.Called }}, Время звонка: {{ call.Cvt.DateEnd }}
 		</div>
 	</div>
@@ -21,7 +21,7 @@
 		mounted (){
 			axios
 			.get('http://10.39.0.113:8080/find')
-			.then(response => (this.info = response));
+			.then(response => (this.info = response.data));
 		}
 	}
 	
