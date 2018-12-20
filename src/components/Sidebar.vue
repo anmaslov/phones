@@ -2,9 +2,10 @@
     <el-menu
       :router="true"
       :default-active="$route.path"
-      text-color="#000"
+      background-color="#545c64"
+      text-color="#fff"
       active-text-color="#ffd04b">
-      
+
       <el-menu-item v-for="route in routes" :index="route.path" :key="route.path">
         <i :class="route.icon"></i>
         {{ route.name }}

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     
-    <el-container>
+    <el-container class="container">
       <el-aside width="300px">
         <sidebar />
       </el-aside>
@@ -25,5 +25,10 @@ export default {
 </script>
 
 <style>
-
+#app {
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	width: 100%;
+}
 </style>
