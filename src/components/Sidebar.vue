@@ -1,11 +1,17 @@
 <template>
-  <div class="sidebar">
-    <ul id="menu">
-      <li v-for="route in routes" :key="route.path">
-        <router-link :to="route.path">{{ route.name }}</router-link>
-      </li>
-    </ul>
-  </div>
+    <el-menu
+      :router="true"
+      :default-active="$route.path"
+      text-color="#000"
+      active-text-color="#ffd04b">
+      
+      <el-menu-item v-for="route in routes" :index="route.path" :key="route.path">
+        <i :class="route.icon"></i>
+        {{ route.name }}
+      </el-menu-item>
+
+    </el-menu>
+
 </template>
 
 <script>

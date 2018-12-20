@@ -1,18 +1,27 @@
 <template>
 	<div class="services">
 		<h1>{{title}}</h1>
-		<p>
-			Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim possimus eius vitae laborum explicabo, suscipit voluptatibus nesciunt aliquam sunt itaque ipsa! Quam repellat eligendi, placeat enim voluptates suscipit sunt corporis.
-		</p>
+
+		<div v-for="(call, index) in info.data" class="tbl-row" :key="index">
+			Станция: {{ call.Stantion }}, Телефон: {{ call.Called }}, Время звонка: {{ call.Cvt.DateEnd }}
+		</div>
 	</div>
 </template>
 <script>
+	import axios from 'axios'
+
 	export default{
 		name:'blog',
 		data (){
 			return{
-				title:'services'
+				title:'services',
+				info: null
 			}
+		},
+		mounted (){
+			axios
+			.get('http://10.39.0.113:8080/find')
+			.then(response => (this.info = response));
 		}
 	}
 	

@@ -8,21 +8,23 @@ import blog from '@/views/blog'
 import contact from '@/views/contact'
 
 const routes = [
-    
     {
         path: '/',
         name: 'blog',
-        component: blog
+        component: blog,
+        icon: 'el-icon-menu'
     },
     {
         path: '/services',
         name: 'services',
-        component: () => import('@/views/services')
+        component: () => import('@/views/services'),
+        icon: 'el-icon-menu'
     },
     {
         path: '/contact',
         name: 'contact',
-        component: contact
+        component: contact,
+        icon: 'el-icon-menu'
     },
 
     /*{
