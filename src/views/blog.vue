@@ -13,19 +13,19 @@
 
 
 		<el-table :data="calls" highlight-current-row v-loading="listLoading" style="width: 100%;">
-			<el-table-column prop="Stantion" label="Станция" min-width="100" sortable>
+			<el-table-column prop="Stantion" label="Станция" min-width="100">
 			</el-table-column>
-			<el-table-column prop="Cvt.DateEnd" label="Дата" width="100" :formatter="formatDate" sortable>
+			<el-table-column prop="Cvt.DateEnd" label="Дата" width="100" :formatter="formatDate">
 			</el-table-column>
-			<el-table-column prop="Cvt.DateEnd" label="Время" width="90" :formatter="formatTime" sortable>
+			<el-table-column prop="Cvt.DateEnd" label="Время" width="90" :formatter="formatTime">
 			</el-table-column>
-			<el-table-column prop="Cvt.DateDiff" label="Длительность" width="150" sortable>
+			<el-table-column prop="Cvt.DateDiff" label="Длительность" width="150">
 			</el-table-column>
-			<el-table-column prop="Tp" label="Статус звонка" width="150" sortable>
+			<el-table-column prop="Tp" label="Статус звонка" width="150">
 			</el-table-column>
-			<el-table-column prop="Called" label="Входящий" min-width="150" sortable>
+			<el-table-column prop="Called" label="Исходный" min-width="150">
 			</el-table-column>
-			<el-table-column prop="Phone" label="Исходящий" min-width="150" sortable>
+			<el-table-column prop="Phone" label="Кому" min-width="150">
 			</el-table-column>
 		</el-table>
 
@@ -38,7 +38,8 @@
 </template>
 
 <script>
-	import axios from 'axios'
+
+	import { getCallList } from '../api/index';
 			//H - исходящий
 			//I - входящий
 	export default{
@@ -68,16 +69,15 @@
 				this.getCalls();
 			},
 			getCalls() {
-				let para = {
+				let param = {
 					limit: this.limit,
 					skip: this.limit * (this.page - 1),
 					phone: this.filters.phone
 				};
 				this.listLoading = true;
-				axios.get('http://10.39.0.113:8080/find', { params: para })
-				.then((res) => {
-					this.total = 123;
-					this.calls = res.data;
+				getCallList(param).then((res) => {
+					this.total = res.data.Count;
+					this.calls = res.data.Data;
 					this.listLoading = false;
 				});
 			},
