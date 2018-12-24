@@ -1,32 +1,58 @@
 <template>
-	<div class="services">
-		<h1>{{title}}</h1>
 
-		<div v-for="(call, index) in info" class="tbl-row" :key="index">
-			Станция: {{ call.Stantion }}, Телефон: {{ call.Called }}, Время звонка: {{ call.Cvt.DateEnd }}
-		</div>
-	</div>
+	<el-table :data="items" style="width: 100%" :row-class-name="tableRowClassName">
+		
+		<el-table-column prop="Id" label="Код" width="100" sortable>
+		</el-table-column>
+
+		<el-table-column prop="Description" label="Описание" min-width="350">
+		</el-table-column>
+		
+		<el-table-column prop="Ip" label="Ip адрес" width="180">
+		</el-table-column>
+
+		<el-table-column prop="Port" label="Порт">
+		</el-table-column>
+	</el-table>
+
 </template>
 <script>
-	import axios from 'axios'
+
+	import { getPhoneList } from '../api/index';
 
 	export default{
 		name:'blog',
 		data (){
 			return{
-				title:'services',
-				info: null
+				filters: {
+					enabled: '',
+				},
+				listLoading: false,
+				items: []
+			}
+		},
+		methods: {
+			getPhones() {
+				getPhoneList({}).then((res) => {
+					this.items = res.data.Data;
+				});
+			},
+			tableRowClassName(row) {
+				if (row.row.Enabled == true) {
+					return 'success-row'
+				}
+				else return '';
 			}
 		},
 		mounted (){
-			axios
-			.get('http://10.39.0.113:8080/find')
-			.then(response => (this.info = response.data));
+			this.getPhones();
 		}
 	}
 	
 </script>
 
-<style scoped>
-	
+<style>
+.success-row {
+	background: #c9f0b4 !important;
+}
 </style>
