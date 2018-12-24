@@ -3,26 +3,26 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
-import blog from '@/views/blog'
+import calls from '@/views/calls'
 //import services from '@/views/services'
 import contact from '@/views/contact'
 
 const routes = [
     {
         path: '/',
-        name: 'Главная',
-        component: blog,
+        name: 'Звонки',
+        component: calls,
         icon: 'el-icon-menu'
     },
     {
-        path: '/services',
-        name: 'Услуги',
-        component: () => import('@/views/services'),
+        path: '/phones',
+        name: 'Тел. Станции',
+        component: () => import('@/views/phones'),
         icon: 'el-icon-menu'
     },
     {
         path: '/contact',
-        name: 'Контакты',
+        name: 'Обратная связь',
         component: contact,
         icon: 'el-icon-menu'
     },
