@@ -18,7 +18,7 @@
 					</el-form-item>
 
 					<el-form-item label="Станция">
-						<el-select v-model="filters.stantion" placeholder="Укажите станцию">
+						<el-select v-model="filters.stantion" placeholder="Укажите станцию" clearable>
 							<el-option
 								v-for="item in stantion.items"
 								:key="item.Id"
@@ -29,25 +29,31 @@
 					</el-form-item>
 					
 					<el-form-item label="Тип звонка">
-						<el-select v-model="filters.tp" placeholder="Тип звонка">
-							<el-option label="На городские" value="H"></el-option>
-							<el-option label="Станция - Станция" value="I"></el-option>
-							<el-option label="Внутри станции" value="J"></el-option>
+						<el-select v-model="filters.tp" placeholder="Тип звонка" clearable style="width: 150px">
+							<el-option label="На городские - H" value="H"></el-option>
+							<el-option label="Станция - Станция - I" value="I"></el-option>
+							<el-option label="Внутри станции - J" value="J"></el-option>
 						</el-select>
 					</el-form-item>
 				</el-col>
 
 				<el-col :span="24">
 					<el-form-item label="Звонивший">
-						<el-input v-model="filters.called" placeholder="Звонивший"></el-input>
+						<el-input v-model="filters.called" placeholder="Звонивший" clearable />
 					</el-form-item>
 					<el-form-item label="Телефон">
-						<el-input v-model="filters.phone" placeholder="Кому"></el-input>
+						<el-input v-model="filters.phone" placeholder="Кому" clearable />
 					</el-form-item>
 
 
 					<el-form-item>
 						<el-button type="primary" v-on:click="getCalls">Применить</el-button>
+					</el-form-item>
+
+					<el-form-item>
+						<el-button :loading="downloadLoading" class="filter-item" 
+							type="primary" 
+							icon="el-icon-download" @click="handleDownload">Выгрузить</el-button>
 					</el-form-item>
 				</el-col>
 			</el-form>
@@ -81,7 +87,8 @@
 
 <script>
 
-	import { getCallList, getPhoneList } from '../api/index';
+	import { getCallList, getPhoneList, getCallExcel } from '../api/index';
+	//import saveAs from 'file-saver';
 			//H - исходящий
 			//I - входящий
 	export default{
@@ -105,7 +112,8 @@
 				listLoading: false,
 				pickerOptions: {
 					firstDayOfWeek: 1
-				}
+				},
+				downloadLoading: false
 			}
 		},
 		methods: {
@@ -117,14 +125,8 @@
 				let d = new Date(row.Cvt.DateEnd);
 				return d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
 			},
-			handleCurrentChange(val) {
-				this.page = val;
-				this.getCalls();
-			},
-			getCalls() {
+			getParams() {
 				let param = {
-					limit: this.limit,
-					skip: this.limit * (this.page - 1),
 					phone: this.filters.phone,
 					called: this.filters.called,
 					stantion: this.filters.stantion,
@@ -134,6 +136,16 @@
 					param["start"] = this.filters.dates[0]
 					param["end"] = this.filters.dates[1]
 				}
+				return param
+			},
+			handleCurrentChange(val) {
+				this.page = val;
+				this.getCalls();
+			},
+			getCalls() {
+				let param = this.getParams()
+				param.limit = this.limit
+				param.skip = this.limit * (this.page - 1)
 
 				this.listLoading = true;
 				getCallList(param).then((res) => {
@@ -146,7 +158,21 @@
 				getPhoneList({}).then((res) => {
 					this.stantion.items = res.data.Data;
 				});
-			}
+			},
+			handleDownload() {
+				this.downloadLoading = true
+				let param = this.getParams()
+				getCallExcel(param).then((res) => {
+					const url = window.URL.createObjectURL(new Blob([res.data]));
+					const link = document.createElement('a');
+					link.href = url;
+					link.setAttribute('download', 'export.xlsx');
+					document.body.appendChild(link);
+					link.click();
+					link.parentNode.removeChild(link);
+					this.downloadLoading = false
+				});
+			},
 		},
 		mounted() {
 			this.getCalls();

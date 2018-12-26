@@ -1,6 +1,6 @@
 <template>
 
-	<el-table :data="items" style="width: 100%" :row-class-name="tableRowClassName">
+	<el-table :data="items" style="width: 100%" v-loading="listLoading" :row-class-name="tableRowClassName">
 		
 		<el-table-column prop="Id" label="Код" width="100" sortable>
 		</el-table-column>
@@ -33,8 +33,10 @@
 		},
 		methods: {
 			getPhones() {
+				this.listLoading = true;
 				getPhoneList({}).then((res) => {
 					this.items = res.data.Data;
+					this.listLoading = false;
 				});
 			},
 			tableRowClassName(row) {
