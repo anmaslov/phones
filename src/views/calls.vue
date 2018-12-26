@@ -52,9 +52,16 @@
 
 					<el-form-item>
 						<el-button :loading="downloadLoading" class="filter-item" 
-							type="primary" 
+							type="warning" 
 							icon="el-icon-download" @click="handleDownload">Выгрузить</el-button>
 					</el-form-item>
+
+					<el-form-item>
+						<el-button :loading="downloadLoading" class="filter-item" 
+							type="warning" 
+							icon="el-icon-download" @click="handleDownloadGroup">По номеру</el-button>
+					</el-form-item>
+
 				</el-col>
 			</el-form>
 		</el-col>
@@ -87,101 +94,112 @@
 
 <script>
 
-	import { getCallList, getPhoneList, getCallExcel } from '../api/index';
-	//import saveAs from 'file-saver';
-			//H - исходящий
-			//I - входящий
-	export default{
-		data (){
-			return{
-				filters: {
-					phone: '',
-					called: '',
-					stantion: '',
-					tp: '',
-					dates: [],
-				},
-				stantion: {
-					loading: false,
-					items: []
-				},
-				calls: [],
-				total: 0,
-				page: 1,
-				limit: 20,
-				listLoading: false,
-				pickerOptions: {
-					firstDayOfWeek: 1
-				},
-				downloadLoading: false
-			}
-		},
-		methods: {
-			formatDate: function (row) {
-				let d = new Date(row.Cvt.DateEnd);
-				return d.getDate() + "." + (d.getMonth()+1) + "." + d.getFullYear();
+import { getCallList, getPhoneList, getCallExcel, getCallExcelGroup } from '../api/index';
+export default{
+	data (){
+		return{
+			filters: {
+				phone: '',
+				called: '',
+				stantion: '',
+				tp: '',
+				dates: [],
 			},
-			formatTime: function (row) {
-				let d = new Date(row.Cvt.DateEnd);
-				return d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+			stantion: {
+				loading: false,
+				items: []
 			},
-			getParams() {
-				let param = {
-					phone: this.filters.phone,
-					called: this.filters.called,
-					stantion: this.filters.stantion,
-					tp: this.filters.tp
-				};
-				if (this.filters.dates) {
-					param["start"] = this.filters.dates[0]
-					param["end"] = this.filters.dates[1]
-				}
-				return param
+			calls: [],
+			total: 0,
+			page: 1,
+			limit: 20,
+			listLoading: false,
+			pickerOptions: {
+				firstDayOfWeek: 1
 			},
-			handleCurrentChange(val) {
-				this.page = val;
-				this.getCalls();
-			},
-			getCalls() {
-				let param = this.getParams()
-				param.limit = this.limit
-				param.skip = this.limit * (this.page - 1)
-
-				this.listLoading = true;
-				getCallList(param).then((res) => {
-					this.total = res.data.Count;
-					this.calls = res.data.Data;
-					this.listLoading = false;
-				});
-			},
-			getPhones() {
-				getPhoneList({}).then((res) => {
-					this.stantion.items = res.data.Data;
-				});
-			},
-			handleDownload() {
-				this.downloadLoading = true
-				let param = this.getParams()
-				getCallExcel(param).then((res) => {
-					const url = window.URL.createObjectURL(new Blob([res.data]));
-					const link = document.createElement('a');
-					link.href = url;
-					link.setAttribute('download', 'export.xlsx');
-					document.body.appendChild(link);
-					link.click();
-					link.parentNode.removeChild(link);
-					this.downloadLoading = false
-				});
-			},
-		},
-		mounted() {
-			this.getCalls();
-			this.getPhones();
-		},
-		components: {
-			
+			downloadLoading: false
 		}
+	},
+	methods: {
+		formatDate: function (row) {
+			let d = new Date(row.Cvt.DateEnd);
+			return d.getDate() + "." + (d.getMonth()+1) + "." + d.getFullYear();
+		},
+		formatTime: function (row) {
+			let d = new Date(row.Cvt.DateEnd);
+			return d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+		},
+		getParams() {
+			let param = {
+				phone: this.filters.phone,
+				called: this.filters.called,
+				stantion: this.filters.stantion,
+				tp: this.filters.tp
+			};
+			if (this.filters.dates) {
+				param["start"] = this.filters.dates[0]
+				param["end"] = this.filters.dates[1]
+			}
+			return param
+		},
+		handleCurrentChange(val) {
+			this.page = val;
+			this.getCalls();
+		},
+		getCalls() {
+			let param = this.getParams()
+			param.limit = this.limit
+			param.skip = this.limit * (this.page - 1)
+
+			this.listLoading = true;
+			getCallList(param).then((res) => {
+				this.total = res.data.Count;
+				this.calls = res.data.Data;
+				this.listLoading = false;
+			});
+		},
+		getPhones() {
+			getPhoneList({}).then((res) => {
+				this.stantion.items = res.data.Data;
+			});
+		},
+		handleDownload() {
+			this.downloadLoading = true
+			let param = this.getParams()
+			getCallExcel(param).then((res) => {
+				const url = window.URL.createObjectURL(new Blob([res.data]));
+				const link = document.createElement('a');
+				link.href = url;
+				link.setAttribute('download', 'export.xlsx');
+				document.body.appendChild(link);
+				link.click();
+				link.parentNode.removeChild(link);
+				this.downloadLoading = false
+			});
+		},
+		handleDownloadGroup() {
+			this.downloadLoading = true
+			let param = this.getParams()
+			getCallExcelGroup(param).then((res) => {
+				const url = window.URL.createObjectURL(new Blob([res.data]));
+				const link = document.createElement('a');
+				link.href = url;
+				link.setAttribute('download', 'export-group.xlsx');
+				document.body.appendChild(link);
+				link.click();
+				link.parentNode.removeChild(link);
+				this.downloadLoading = false
+			});
+		},
+	},
+	mounted() {
+		this.getCalls();
+		this.getPhones();
+	},
+	components: {
+		
 	}
+}
 </script>
 
 <style scoped>
