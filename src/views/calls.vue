@@ -33,6 +33,9 @@
 							<el-option label="На городские - H" value="H"></el-option>
 							<el-option label="Станция - Станция - I" value="I"></el-option>
 							<el-option label="Внутри станции - J" value="J"></el-option>
+							<el-option label="A" value="A"></el-option>
+							<el-option label="B" value="B"></el-option>
+							<el-option label="E" value="E"></el-option>
 						</el-select>
 					</el-form-item>
 				</el-col>

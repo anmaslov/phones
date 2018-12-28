@@ -5,7 +5,7 @@ Vue.use(VueRouter)
 
 import calls from '@/views/calls'
 //import services from '@/views/services'
-//import contact from '@/views/contact'
+//import socket from '@/views/socket'
 
 const routes = [
     {
@@ -20,10 +20,10 @@ const routes = [
         component: () => import('@/views/phones'),
         icon: 'el-icon-menu'
     },
-   /* {
-        path: '/contact',
-        name: 'Обратная связь',
-        component: contact,
+    /*{
+        path: '/sockets',
+        name: 'Сокеты',
+        component: socket,
         icon: 'el-icon-menu'
     },*/
 
