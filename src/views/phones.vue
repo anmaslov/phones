@@ -40,8 +40,8 @@
 				});
 			},
 			tableRowClassName(row) {
-				if (row.row.Enabled == true) {
-					return 'success-row'
+				if (row.row.Enabled == false) {
+					return 'disabled-row'
 				}
 				else return '';
 			}
@@ -54,7 +54,7 @@
 </script>
 
 <style>
-.success-row {
-	background: #c9f0b4 !important;
+.disabled-row {
+	background: rgb(252, 195, 195) !important;
 }
 </style>
