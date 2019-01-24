@@ -30,29 +30,26 @@
 					
 					<el-form-item label="Тип звонка">
 						<el-select v-model="filters.tp" placeholder="Тип звонка" clearable style="width: 150px">
-							<el-option label="На городские - H" value="H"></el-option>
-							<el-option label="Станция - Станция - I" value="I"></el-option>
-							<el-option label="Внутри станции - J" value="J"></el-option>
-							<el-option label="A" value="A"></el-option>
-							<el-option label="B" value="B"></el-option>
-							<el-option label="E" value="E"></el-option>
+							<el-option label="Входящие - I" value="I"></el-option>
+							<el-option label="Исходящие - H" value="H"></el-option>
+							<el-option label="Внутристанционные - J" value="J"></el-option>
 						</el-select>
 					</el-form-item>
 				</el-col>
 
 				<el-col :span="24">
-					<el-form-item label="Звонивший">
-						<el-input v-model="filters.called" placeholder="Звонивший" clearable />
-					</el-form-item>
-					<el-form-item label="Телефон">
-						<el-input v-model="filters.phone" placeholder="Кому" clearable />
+					<el-form-item label="Внутренний номер">
+						<el-input v-model="filters.called" placeholder="Внутренний номер" clearable />
 					</el-form-item>
 
+					<el-form-item label="Кому">
+						<el-input v-model="filters.phone" placeholder="Кому" clearable />
+					</el-form-item>
 
 					<el-form-item>
 						<el-button type="primary" v-on:click="getCalls">Применить</el-button>
 					</el-form-item>
-
+					
 					<el-form-item>
 						<el-button :loading="downloadLoading" class="filter-item" 
 							type="warning" 
@@ -81,7 +78,7 @@
 			</el-table-column>
 			<el-table-column prop="Tp" label="Тип звонка" width="150">
 			</el-table-column>
-			<el-table-column prop="Called" label="Исходный" min-width="150">
+			<el-table-column prop="Called" label="Внутренний номер" min-width="150">
 			</el-table-column>
 			<el-table-column prop="Phone" label="Кому" min-width="150">
 			</el-table-column>

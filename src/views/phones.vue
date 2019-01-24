@@ -1,6 +1,6 @@
 <template>
 
-	<el-table :data="items" style="width: 100%" v-loading="listLoading" :row-class-name="tableRowClassName">
+	<el-table :data="items" style="width: 100%" border v-loading="listLoading" :row-class-name="tableRowClassName">
 		
 		<el-table-column prop="Id" label="Код" width="100" sortable>
 		</el-table-column>

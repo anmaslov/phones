@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    
     <el-container class="container">
       <el-aside width="200px">
         <sidebar />
