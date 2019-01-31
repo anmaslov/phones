@@ -47,7 +47,7 @@
 					</el-form-item>
 
 					<el-form-item>
-						<el-button type="primary" v-on:click="getCalls">Применить</el-button>
+						<el-button type="primary" v-on:click="aplFileter">Применить</el-button>
 					</el-form-item>
 					
 					<el-form-item>
@@ -66,21 +66,22 @@
 			</el-form>
 		</el-col>
 
-
 		<el-table :data="calls" highlight-current-row v-loading="listLoading" style="width: 100%;">
-			<el-table-column prop="Stantion" label="Станция" width="80">
+			<el-table-column prop="Stantion" label="Станция" width="80" align="center">
 			</el-table-column>
-			<el-table-column prop="Cvt.DateEnd" label="Дата" width="100" :formatter="formatDate">
+			<el-table-column label="Дата время" width="100" :formatter="formatDate" align="center">
 			</el-table-column>
-			<el-table-column prop="Cvt.DateEnd" label="Время" width="90" :formatter="formatTime">
+			<el-table-column label="Прошло" min-width="130" :formatter="formatTime" align="center">
 			</el-table-column>
-			<el-table-column prop="Cvt.DateDiff" label="Длительность" width="150">
+			<el-table-column prop="Cvt.DateDiff" label="Длительность" width="150" align="center">
 			</el-table-column>
-			<el-table-column prop="Tp" label="Тип звонка" width="150">
+			<el-table-column prop="Tp" label="Тип звонка" width="100" align="center">
 			</el-table-column>
-			<el-table-column prop="Called" label="Внутренний номер" min-width="150">
+			<el-table-column prop="Called" label="Внутр. номер" min-width="100" align="center">
 			</el-table-column>
-			<el-table-column prop="Phone" label="Кому" min-width="150">
+			<el-table-column label="Транк" width="150" :formatter="formatTrank" align="center">
+			</el-table-column>
+			<el-table-column prop="Phone" label="Кому" min-width="150" align="center">
 			</el-table-column>
 		</el-table>
 
@@ -95,6 +96,7 @@
 <script>
 
 import { getCallList, getPhoneList, getCallExcel, getCallExcelGroup } from '../api/index';
+import moment from 'moment';
 export default{
 	data (){
 		return{
@@ -122,12 +124,13 @@ export default{
 	},
 	methods: {
 		formatDate: function (row) {
-			let d = new Date(row.Cvt.DateEnd);
-			return d.getDate() + "." + (d.getMonth()+1) + "." + d.getFullYear();
+			return moment(row.Cvt.DateEnd).format('DD.MM.YYYY HH:mm:ss');
 		},
 		formatTime: function (row) {
-			let d = new Date(row.Cvt.DateEnd);
-			return d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+			return moment(row.Cvt.DateEnd).locale('ru').fromNow();
+		},
+		formatTrank: function (row) {
+			return row.TruncOut + "-" + row.TruncInc;
 		},
 		getParams() {
 			let param = {
@@ -157,6 +160,9 @@ export default{
 				this.calls = res.data.Data;
 				this.listLoading = false;
 			});
+		},
+		aplFileter(){
+			this.handleCurrentChange(1);
 		},
 		getPhones() {
 			getPhoneList({}).then((res) => {
